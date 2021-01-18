@@ -1,0 +1,29 @@
+site_name: pciids
+site_description: CLI lookup of vendor and device names using PCI IDs
+copyright: Copyright &copy; 2021 Joshua Powers
+repo_name: powersj/pciids
+repo_url: https://github.com/powersj/pciids
+theme:
+  name: material
+  favicon: images/favicon.ico
+  features:
+    - navigation.sections
+  font:
+    text: Ubuntu
+    code: JetBrains Mono
+  icon:
+    logo: material/memory
+    repo: fontawesome/brands/github
+  palette:
+  - scheme: default
+    primary: amber
+    accent: deep purple
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+nav:
+- Overview: index.md
+- Contributing: contributing.md
+- Versioning: versioning.md
+- Documentation: documentation.md

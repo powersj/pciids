@@ -1,0 +1,19 @@
+before:
+  hooks:
+    - go mod download
+    - go generate ./...
+builds:
+- env:
+  goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+  - arm64
+changelog:
+  sort: desc
+checksum:
+  name_template: '{{ .ProjectName }}_checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
