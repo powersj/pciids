@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	version         = "v1.0.0"
+	version         = "v1.3.0"
 	numDeviceIDs    = 2
 	numSubDeviceIDs = 4
 )
