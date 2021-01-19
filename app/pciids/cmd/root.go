@@ -60,7 +60,7 @@ func args(cmd *cobra.Command, args []string) error {
 	if len(args) != numDeviceIDs {
 		if len(args) != numSubDeviceIDs {
 			return errors.New(
-				"require either two or four PCI IDs as arguments (e.g. 10de 1467)",
+				"either two or four PCI IDs as arguments (e.g. 10de 1467) are required",
 			)
 		}
 	}
