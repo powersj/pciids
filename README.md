@@ -1,4 +1,4 @@
-# PCIIDs
+# pciids
 
 *Lookup vendor and device names using PCI IDs!*
 
