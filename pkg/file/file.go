@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -28,15 +29,18 @@ var testString string = "121a  3Dfx Interactive, Inc.\n" +
 // Latest downloads the latest PCI ID file from the GitHub mirror.
 func Latest() (string, error) {
 	if Testing {
+		log.Debug("Using test string")
 		return testString, nil
 	}
 
+	log.Debug("Downloading ", remoteURL)
 	resp, err := http.Get(remoteURL)
 	if err != nil {
 		return "", errors.Wrap(err, "Failed to download latest file")
 	}
 	defer resp.Body.Close()
 
+	log.Debug(resp.Status)
 	if resp.StatusCode != http.StatusOK {
 		return "", errors.New(fmt.Sprintln("Invalid response status code: ", resp.Status))
 	}

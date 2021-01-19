@@ -1,7 +1,7 @@
 all: build
 
 build:
-	go build
+	go build -o pciids ./app/pciids/
 
 clean:
 	rm -f pciids coverage.out go.sum

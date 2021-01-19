@@ -1,9 +1,11 @@
 package query
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/powersj/pciids/pkg/file"
 	"github.com/powersj/pciids/pkg/ids"
@@ -31,6 +33,8 @@ func Device(vendorID string, deviceID string) ([]ids.PCIID, error) {
 	var vID string = strings.ToLower(vendorID)
 	var dID string = strings.ToLower(deviceID)
 
+	log.Debug(fmt.Sprintf("Looking up %s:%s", vID, dID))
+
 	pciids, err := All()
 	if err != nil {
 		return results, err
@@ -48,6 +52,8 @@ func Device(vendorID string, deviceID string) ([]ids.PCIID, error) {
 		}
 	}
 
+	log.Debug(fmt.Sprintf("Found %d result(s)", len(results)))
+
 	return results, nil
 }
 
@@ -62,6 +68,8 @@ func SubDevice(
 	var sVID string = strings.ToLower(subVendorID)
 	var sDID string = strings.ToLower(subDeviceID)
 
+	log.Debug(fmt.Sprintf("Looking up %s:%s %s:%s", vID, dID, sVID, sDID))
+
 	pciids, err := All()
 	if err != nil {
 		return results, err
@@ -74,6 +82,8 @@ func SubDevice(
 			}
 		}
 	}
+
+	log.Debug(fmt.Sprintf("Found %d result(s)", len(results)))
 
 	return results, nil
 }

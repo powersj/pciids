@@ -3,6 +3,8 @@ package ids
 import (
 	"bufio"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -18,6 +20,8 @@ func Parse(rawIDs string) ([]PCIID, error) {
 	if vendors == nil {
 		vendors = parseVendors(rawIDs)
 	}
+
+	log.Debug("Parsing PCI IDs")
 
 	scanner := bufio.NewScanner(strings.NewReader(rawIDs))
 	for scanner.Scan() {
@@ -73,6 +77,8 @@ func parseDevice(line string) PCIID {
 // parseVendors parses all Vendors from the PCI ID file.
 func parseVendors(rawIDs string) map[string]string {
 	var vendors map[string]string = make(map[string]string)
+
+	log.Debug("Parsing vendor IDs")
 
 	scanner := bufio.NewScanner(strings.NewReader(rawIDs))
 	for scanner.Scan() {
