@@ -93,7 +93,17 @@ The executable object file location will exist at `${GOPATH}/bin/pciids`
 
 ## API usage
 
-Users can take advantage of the query functions in their own code:
+Users can take advantage of various functions in their own code:
+
+* All: returns a list of all PCI ID devices
+* LatestFile: string of the latest PCI ID database
+* Parse: parses a given PCI ID database file
+* QueryDevice: Searches for devices matching a PCI ID pair
+* QuerySubDevice: Like QueryDevice, but matches two PCI ID pairs (e.g. device and sub-device)
+
+Additionally, the `PCIID` struct can be used to create one-off IDs.
+
+Below is an example of querying for matching devices using a PCI ID pair:
 
 ```go
 package main
@@ -105,13 +115,13 @@ import (
 )
 
 func main() {
-  ids, err := pciids.Query.Device("10de", "1467")
+  ids, err := pciids.QueryDevice("10de", "1467")
   if err != nil {
-    fmt.Printf("Error getting device info: %v", err)
+    fmt.Println("Error getting device info: %v", err)
   }
 
   for _, id := range ids {
-      fmt.Printf(id.String())
+    fmt.Println(id.String())
   }
 }
 ```
