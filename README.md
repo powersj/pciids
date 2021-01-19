@@ -101,11 +101,13 @@ The executable object file location will exist at `${GOPATH}/bin/pciids`
 
 Users can take advantage of various functions in their own code:
 
-* All: returns a list of all PCI ID devices
-* LatestFile: string of the latest PCI ID database
-* Parse: parses a given PCI ID database file
-* QueryDevice: Searches for devices matching a PCI ID pair
-* QuerySubDevice: Like QueryDevice, but matches two PCI ID pairs (e.g. device and sub-device)
+* `All()`: returns a list of all PCI ID devices
+* `LatestFile()`: string of the latest PCI ID database
+* `Parse(string)`: parses a given PCI ID database string
+* `QueryDevice(vendorID, deviceID)`: Searches for devices matching a PCI ID
+   pair
+* `QuerySubDevice(vendorID, deviceID, subVendorID, subDeviceID)`: Like
+   QueryDevice, but matches two PCI ID pairs (e.g. device and sub-device)
 
 Additionally, the `PCIID` struct is available for use to create one-off IDs.
 
