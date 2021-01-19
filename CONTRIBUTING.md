@@ -75,7 +75,7 @@ topic: <short title for what changed>
 Fixes #1
 ```
 
-The first line is the subject and should be no longer than 70 characters, the
+The first line is the subject and should not be longer than 70 characters, the
 second line is always blank, and other lines should be wrapped at 80
 characters.
 

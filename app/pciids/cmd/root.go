@@ -26,9 +26,19 @@ var (
 
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
-	Use:              "pciids",
-	Short:            "Lookup vendor and device names using PCI IDs",
-	Long:             `Lookup vendor and device names using PCI IDs`,
+	Use:   "pciids",
+	Short: "Lookup vendor and device names using PCI IDs",
+	Long: `Lookup vendor and device names using PCI IDs.
+
+To search for devices using the CLI, pass in either:
+  a) a pair of vendor and device PCI IDs
+  b) two pairs, vendor and device PCI IDs as well as sub-vendor and
+     sub-device PCI IDs:
+
+Examples:
+$ pciids 1d0f efa1
+$ pciids 10de 2206 10de 1467
+`,
 	PersistentPreRun: setup,
 	Args:             args,
 	RunE:             root,

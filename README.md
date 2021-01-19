@@ -6,7 +6,13 @@
 
 ## CLI
 
-The CLI expects either two or four PCI IDs to look up a device:
+To search for devices using the CLI, pass in either:
+
+  a) a pair of vendor and device PCI IDs
+  b) two pairs, vendor and device PCI IDs as well as sub-vendor and
+     sub-device PCI IDs:
+
+Here are some examples:
 
 ```text
 $ pciids 1d0f efa1
@@ -15,7 +21,7 @@ $ pciids 10de 2206 10de 1467
 10de:2206 10de:1467 - NVIDIA Corporation GA102 [GeForce RTX 3080]
 ```
 
-If there are multiple matches all will matches will be listed.
+If there are multiple matches then all matches are returned.
 
 ### JSON output
 
@@ -101,7 +107,7 @@ Users can take advantage of various functions in their own code:
 * QueryDevice: Searches for devices matching a PCI ID pair
 * QuerySubDevice: Like QueryDevice, but matches two PCI ID pairs (e.g. device and sub-device)
 
-Additionally, the `PCIID` struct can be used to create one-off IDs.
+Additionally, the `PCIID` struct is available for use to create one-off IDs.
 
 Below is an example of querying for matching devices using a PCI ID pair:
 
