@@ -2,7 +2,7 @@
 
 *Lookup vendor and device names using PCI IDs!*
 
-[![Build Status](https://travis-ci.org/powersj/pciids.svg?branch=master)](https://travis-ci.org/powersj/pciids/) [![Go Report Card](https://goreportcard.com/badge/github.com/powersj/pciids)](https://goreportcard.com/report/github.com/powersj/pciids) [![Go Reference](https://pkg.go.dev/badge/github.com/powersj/pciids.svg)](https://pkg.go.dev/github.com/powersj/pciids)
+[![Build Status](https://travis-ci.com/powersj/pciids.svg?branch=master)](https://travis-ci.org/powersj/pciids/) [![Go Report Card](https://goreportcard.com/badge/github.com/powersj/pciids)](https://goreportcard.com/report/github.com/powersj/pciids) [![Go Reference](https://pkg.go.dev/badge/github.com/powersj/pciids.svg)](https://pkg.go.dev/github.com/powersj/pciids)
 
 ## CLI
 
