@@ -1,25 +1,12 @@
-package query
+package main
 
 import (
 	"fmt"
 	"testing"
-
-	"github.com/powersj/pciids/pkg/file"
-
-	"github.com/stretchr/testify/assert"
 )
 
-func TestAll(t *testing.T) {
-	file.Testing = true
-	ids, err := All()
-
-	if assert.NoError(t, err) {
-		assert.NotEmpty(t, ids)
-	}
-}
-
 func TestDevice(t *testing.T) {
-	file.Testing = true
+	t.Parallel()
 
 	tests := []struct {
 		vendorID string
@@ -32,7 +19,9 @@ func TestDevice(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("query=%s %s", tc.vendorID, tc.deviceID), func(t *testing.T) {
-			ids, _ := Device(tc.vendorID, tc.deviceID)
+			t.Parallel()
+
+			ids, _ := QueryDevice(tc.vendorID, tc.deviceID)
 			if tc.matches != len(ids) {
 				t.Fatalf("want %d, got %d", tc.matches, len(ids))
 			}
@@ -41,7 +30,7 @@ func TestDevice(t *testing.T) {
 }
 
 func TestSubDevice(t *testing.T) {
-	file.Testing = true
+	t.Parallel()
 
 	tests := []struct {
 		vendorID    string
@@ -58,7 +47,9 @@ func TestSubDevice(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("subQuery=%s %s", tc.vendorID, tc.deviceID), func(t *testing.T) {
-			ids, _ := SubDevice(tc.vendorID, tc.deviceID, tc.subVendorID, tc.subDeviceID)
+			t.Parallel()
+
+			ids, _ := QuerySubDevice(tc.vendorID, tc.deviceID, tc.subVendorID, tc.subDeviceID)
 			if tc.matches != len(ids) {
 				t.Fatalf("want %d, got %d", tc.matches, len(ids))
 			}

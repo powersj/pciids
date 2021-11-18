@@ -1,22 +1,13 @@
-package cmd
+package main
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/powersj/pciids/pkg/ids"
-	"github.com/powersj/pciids/pkg/query"
-
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-)
-
-const (
-	version         = "v1.4.0"
-	numDeviceIDs    = 2
-	numSubDeviceIDs = 4
 )
 
 var (
@@ -47,7 +38,8 @@ $ pciids 10de 2206 10de 1467
 // Called before all commands to setup general run-time settings.
 func setup(cmd *cobra.Command, args []string) {
 	log.SetFormatter(&log.TextFormatter{
-		DisableTimestamp: true,
+		DisableTimestamp:       true,
+		DisableLevelTruncation: true,
 	})
 
 	if debugOutput {
@@ -70,19 +62,17 @@ func args(cmd *cobra.Command, args []string) error {
 
 // Base command operations.
 func root(cmd *cobra.Command, args []string) error {
-	var ids []ids.PCIID
+	var ids []PCIID
 	var err error
 
 	if len(args) == numSubDeviceIDs {
-		ids, err = query.SubDevice(args[0], args[1], args[2], args[3])
-		if err != nil {
-			return errors.Wrap(err, "Error while querying for device")
-		}
+		ids, err = QuerySubDevice(args[0], args[1], args[2], args[3])
 	} else {
-		ids, err = query.Device(args[0], args[1])
-		if err != nil {
-			return errors.Wrap(err, "Error while querying for device")
-		}
+		ids, err = QueryDevice(args[0], args[1])
+	}
+
+	if err != nil {
+		return errors.Wrap(err, "Error while querying for device")
 	}
 
 	if jsonOutput {

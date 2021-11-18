@@ -1,4 +1,4 @@
-package ids
+package main
 
 import (
 	"encoding/json"
@@ -8,21 +8,25 @@ import (
 )
 
 func TestPCIID(t *testing.T) {
-	var id PCIID = PCIID{
+	t.Parallel()
+
+	empty := PCIID{}
+	pciid := PCIID{
 		VendorID:   "5678",
 		VendorName: "Kraftworks",
 		DeviceID:   "1234",
 		DeviceName: "Foobar 9000",
 	}
 
-	assert.Contains(t, id.String(), "Kraftworks Foobar 9000")
-
-	var newID PCIID
-	assert.NoError(t, json.Unmarshal([]byte(id.JSON()), &newID))
+	assert.Contains(t, pciid.String(), "Kraftworks Foobar 9000")
+	assert.NoError(t, json.Unmarshal([]byte(pciid.JSON()), &empty))
 }
 
 func TestSubPCIID(t *testing.T) {
-	var id PCIID = PCIID{
+	t.Parallel()
+
+	empty := PCIID{}
+	pciid := PCIID{
 		VendorID:   "5678",
 		VendorName: "Kraftworks",
 		DeviceID:   "1234",
@@ -34,8 +38,6 @@ func TestSubPCIID(t *testing.T) {
 		SubDeviceName: "Company",
 	}
 
-	assert.Contains(t, id.String(), "Vendor Company")
-
-	var newID PCIID
-	assert.NoError(t, json.Unmarshal([]byte(id.JSON()), &newID))
+	assert.Contains(t, pciid.String(), "Vendor Company")
+	assert.NoError(t, json.Unmarshal([]byte(pciid.JSON()), &empty))
 }

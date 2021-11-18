@@ -1,4 +1,4 @@
-package ids
+package main
 
 import (
 	"bufio"
@@ -14,18 +14,18 @@ var (
 )
 
 // Parse returns a list of all PCI IDs in a slice after parsing the PCI ID file.
-func Parse(rawIDs string) ([]PCIID, error) {
+func parse(rawIDs string) []PCIID {
 	var devices []PCIID
 
 	if vendors == nil {
 		vendors = parseVendors(rawIDs)
 	}
 
-	log.Debug("Parsing PCI IDs")
+	log.Debug("parsing PCI IDs")
 
 	scanner := bufio.NewScanner(strings.NewReader(rawIDs))
 	for scanner.Scan() {
-		var line string = scanner.Text()
+		line := scanner.Text()
 		if !valid(line) {
 			continue
 		}
@@ -37,18 +37,18 @@ func Parse(rawIDs string) ([]PCIID, error) {
 			currentDevice = parseDevice(line)
 			devices = append(devices, currentDevice)
 		default:
-			var splits []string = strings.Split(line, "  ")
+			splits := strings.Split(line, "  ")
 			currentVendorID = strings.TrimSpace(splits[0])
 		}
 	}
 
-	return devices, nil
+	return devices
 }
 
 // parseSubDevice parses a line starting with two tabs and returns the PCI ID.
 func parseSubDevice(line string) PCIID {
-	var splits []string = strings.Split(strings.TrimPrefix(line, "\t\t"), " ")
-	var subVendorID string = strings.TrimSpace(splits[0])
+	splits := strings.Split(strings.TrimPrefix(line, "\t\t"), " ")
+	subVendorID := strings.TrimSpace(splits[0])
 
 	return PCIID{
 		DeviceID:      currentDevice.DeviceID,
@@ -64,7 +64,7 @@ func parseSubDevice(line string) PCIID {
 
 // parseDevice parses the line starting with a tab and returns the PCI ID.
 func parseDevice(line string) PCIID {
-	var splits []string = strings.Split(strings.TrimPrefix(line, "\t"), "  ")
+	splits := strings.Split(strings.TrimPrefix(line, "\t"), "  ")
 
 	return PCIID{
 		DeviceID:   strings.TrimSpace(splits[0]),
@@ -76,18 +76,18 @@ func parseDevice(line string) PCIID {
 
 // parseVendors parses all Vendors from the PCI ID file.
 func parseVendors(rawIDs string) map[string]string {
-	var vendors map[string]string = make(map[string]string)
+	vendors := make(map[string]string)
 
-	log.Debug("Parsing vendor IDs")
+	log.Debug("parsing vendor IDs")
 
 	scanner := bufio.NewScanner(strings.NewReader(rawIDs))
 	for scanner.Scan() {
-		var line string = scanner.Text()
+		line := scanner.Text()
 		if !validVendor(line) {
 			continue
 		}
 
-		var splits []string = strings.Split(line, "  ")
+		splits := strings.Split(line, "  ")
 		vendors[strings.TrimSpace(splits[0])] = strings.Join(splits[1:], " ")
 	}
 

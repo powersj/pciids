@@ -1,18 +1,18 @@
 linters:
-  enable:
-    - dupl
-    - errorlint
-    - funlen
-    - gocritic
-    - godot
-    - gofumpt
-    - goimports
-    - gomnd
-    - gosec
-    - lll
-    - misspell
-    - whitespace
-    - wrapcheck
+  enable-all: true
+  disable:
+    - forbidigo
+    - golint
+    - interfacer
+    - maligned
+    - wsl
+    - scopelint
+    - gochecknoinits
+    - exhaustivestruct
+    - testpackage
+    - paralleltest
+    - gochecknoglobals
+    - varnamelen
 linters-settings:
   lll:
     line-length: 100

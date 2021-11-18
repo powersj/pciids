@@ -16,7 +16,7 @@ Here are some examples:
 
 ```text
 $ pciids 1d0f efa1
-1d0f:efa1           - Amazon.com, Inc. Elastic Fabric Adapter (EFA)
+1d0f:efa1 - Amazon.com, Inc. Elastic Fabric Adapter (EFA)
 $ pciids 10de 2206 10de 1467
 10de:2206 10de:1467 - NVIDIA Corporation GA102 [GeForce RTX 3080]
 ```
@@ -49,12 +49,12 @@ The `--debug` flag to produce additional output while running:
 
 ```json
 $ pciids --json 121a 0009 121a 0009
-DEBU Looking up 121a:0009 121a:0009
-DEBU Downloading https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids
+DEBU looking up 121a:0009 121a:0009
+DEBU downloading https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids
 DEBU 200 OK
-DEBU Parsing vendor IDs
-DEBU Parsing PCI IDs
-DEBU Found 1 results
+DEBU parsing vendor IDs
+DEBU parsing PCI IDs
+DEBU found 1 results
 121a:0009 121a:0009 - 3Dfx Interactive, Inc. Voodoo5 AGP 5500/6000
 ```
 

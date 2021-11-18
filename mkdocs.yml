@@ -1,6 +1,6 @@
 site_name: pciids
 site_description: CLI lookup of vendor and device names using PCI IDs
-copyright: Copyright &copy; 2021 Joshua Powers
+copyright: Copyright &copy; 2021-2022 Joshua Powers
 repo_name: powersj/pciids
 repo_url: https://github.com/powersj/pciids
 theme:

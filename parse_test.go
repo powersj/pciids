@@ -1,4 +1,4 @@
-package ids
+package main
 
 import (
 	"fmt"
@@ -8,47 +8,47 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	var input string = "# test input\n" +
+	t.Parallel()
+
+	input := "# test input\n" +
 		"121a  3Dfx Interactive, Inc.\n" +
 		"\t0001  Voodoo\n" +
 		"\t0009  Voodoo 4 / Voodoo 5\n" +
 		"\t\t121a 0003  Voodoo5 PCI 5500\n" +
 		"\t\t121a 0009  Voodoo5 AGP 5500/6000\n"
 
-	ids, err := Parse(input)
+	ids := parse(input)
 
-	if assert.NoError(t, err) {
-		assert.Equal(t, 4, len(ids))
-	}
-}
-
-func TestParseSubDevice(t *testing.T) {
-	var output PCIID = parseSubDevice("\t\t121a 0009  Voodoo5 AGP 5500/6000")
-
-	fmt.Println(output)
-
-	assert.Equal(t, "121a", output.VendorID)
-	assert.Equal(t, "3Dfx Interactive, Inc.", output.VendorName)
-	assert.Equal(t, "0009", output.DeviceID)
-	assert.Equal(t, "Voodoo 4 / Voodoo 5", output.DeviceName)
-
-	assert.Equal(t, "121a", output.SubVendorID)
-	assert.Equal(t, "3Dfx Interactive, Inc.", output.SubVendorName)
-	assert.Equal(t, "0009", output.SubDeviceID)
-	assert.Equal(t, "Voodoo5 AGP 5500/6000", output.SubDeviceName)
+	assert.Equal(t, 4, len(ids))
 }
 
 func TestParseDevice(t *testing.T) {
-	var output PCIID = parseDevice("\t0009  Voodoo 4 / Voodoo 5")
+	pciid := parseDevice("\t0009  Voodoo 4 / Voodoo 5")
 
-	assert.Equal(t, "121a", output.VendorID)
-	assert.Equal(t, "3Dfx Interactive, Inc.", output.VendorName)
-	assert.Equal(t, "0009", output.DeviceID)
-	assert.Equal(t, "Voodoo 4 / Voodoo 5", output.DeviceName)
+	assert.Equal(t, "", pciid.VendorID)
+	assert.Equal(t, "", pciid.VendorName)
+	assert.Equal(t, "0009", pciid.DeviceID)
+	assert.Equal(t, "Voodoo 4 / Voodoo 5", pciid.DeviceName)
+}
+
+func TestParseSubDevice(t *testing.T) {
+	pciid := parseSubDevice("\t\t121a 0009  Voodoo5 AGP 5500/6000")
+
+	assert.Equal(t, "", pciid.VendorID)
+	assert.Equal(t, "", pciid.VendorName)
+	assert.Equal(t, "", pciid.DeviceID)
+	assert.Equal(t, "", pciid.DeviceName)
+
+	assert.Equal(t, "121a", pciid.SubVendorID)
+	assert.Equal(t, "", pciid.SubVendorName)
+	assert.Equal(t, "0009", pciid.SubDeviceID)
+	assert.Equal(t, "Voodoo5 AGP 5500/6000", pciid.SubDeviceName)
 }
 
 func TestParseVendors(t *testing.T) {
-	var input string = "# comment\n" +
+	t.Parallel()
+
+	input := "# comment\n" +
 		"2077 Araska\n" +
 		" 0001 Militech\n" +
 		"\n" +
@@ -56,12 +56,14 @@ func TestParseVendors(t *testing.T) {
 		"\t\t121a 0009\n" +
 		"C 09"
 
-	var vendors map[string]string = parseVendors(input)
+	vendors := parseVendors(input)
 
 	assert.Equal(t, 2, len(vendors))
 }
 
 func TestValid(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		input  string
 		result bool
@@ -75,7 +77,9 @@ func TestValid(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("valid=%s", tc.input), func(t *testing.T) {
-			var result bool = valid(tc.input)
+			t.Parallel()
+
+			result := valid(tc.input)
 			if result != tc.result {
 				t.Fatalf("got %v; want %v", result, tc.result)
 			}
@@ -84,6 +88,8 @@ func TestValid(t *testing.T) {
 }
 
 func TestValidVendor(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		input  string
 		result bool
@@ -97,7 +103,9 @@ func TestValidVendor(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("valid=%s", tc.input), func(t *testing.T) {
-			var result bool = validVendor(tc.input)
+			t.Parallel()
+
+			result := validVendor(tc.input)
 			if result != tc.result {
 				t.Fatalf("got %v; want %v", result, tc.result)
 			}
