@@ -27,7 +27,7 @@ If there are multiple matches then all matches are returned.
 
 The command can take the `--json` flag to produce JSON output:
 
-```json
+```shell
 $ pciids 121a 0009 121a 0009 --json
 [
     {
@@ -47,7 +47,7 @@ $ pciids 121a 0009 121a 0009 --json
 
 The `--debug` flag to produce additional output while running:
 
-```json
+```shell
 $ pciids --json 121a 0009 121a 0009
 DEBU looking up 121a:0009 121a:0009
 DEBU downloading https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids
