@@ -22,11 +22,13 @@ var rootCmd = &cobra.Command{
 	Long: `Lookup vendor and device names using PCI IDs.
 
 To search for devices using the CLI, pass in either:
-  a) a pair of vendor and device PCI IDs
-  b) two pairs, vendor and device PCI IDs as well as sub-vendor and
+  a) vendor
+  b) a pair of vendor and device PCI IDs
+  c) two pairs, vendor and device PCI IDs as well as sub-vendor and
      sub-device PCI IDs:
 
 Examples:
+$ pciids 1ed5
 $ pciids 1d0f efa1
 $ pciids 10de 2206 10de 1467
 `,
@@ -47,14 +49,14 @@ func setup(cmd *cobra.Command, args []string) {
 	}
 }
 
-// Checks that there are exactly two arguments.
+// Checks that there are exactly 1, 2, or 4 arguments.
 func args(cmd *cobra.Command, args []string) error {
-	if len(args) != numDeviceIDs {
-		if len(args) != numSubDeviceIDs {
-			return errors.New(
-				"either two or four PCI IDs as arguments (e.g. 10de 1467) are required",
-			)
-		}
+	length := len(args)
+	if length != numVendorIDs && length != numDeviceIDs &&
+		length != numSubDeviceIDs {
+		return errors.New(
+			"invalid number of arguments, expected 1, 2, or 4 (e.g. 10de 1467)",
+		)
 	}
 
 	return nil
@@ -65,10 +67,13 @@ func root(cmd *cobra.Command, args []string) error {
 	var ids []PCIID
 	var err error
 
-	if len(args) == numSubDeviceIDs {
+	switch len(args) {
+	case numSubDeviceIDs:
 		ids, err = QuerySubDevice(args[0], args[1], args[2], args[3])
-	} else {
+	case numDeviceIDs:
 		ids, err = QueryDevice(args[0], args[1])
+	case numVendorIDs:
+		ids, err = QueryVendor(args[0])
 	}
 
 	if err != nil {

@@ -13,6 +13,7 @@ import (
 
 const (
 	version         = "v2.0.0"
+	numVendorIDs    = 1
 	numDeviceIDs    = 2
 	numSubDeviceIDs = 4
 	remoteURL       = "https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids"
@@ -67,6 +68,29 @@ func LatestWithContext(ctx context.Context) (string, error) {
 	return string(bodyBytes), nil
 }
 
+func QueryVendor(vendorID string) ([]PCIID, error) {
+	results := make([]PCIID, 0)
+
+	vID := strings.ToLower(vendorID)
+
+	log.Debug(fmt.Sprintf("looking up %s", vID))
+
+	pciids, err := All()
+	if err != nil {
+		return results, err
+	}
+
+	for _, pciid := range pciids {
+		if vID == pciid.VendorID {
+			results = append(results, pciid)
+		}
+	}
+
+	log.Debug(fmt.Sprintf("found %d result(s)", len(results)))
+
+	return results, nil
+}
+
 // Device finds all matching devices based on a pair of vendor and device IDs.
 func QueryDevice(vendorID string, deviceID string) ([]PCIID, error) {
 	results := make([]PCIID, 0)
@@ -101,7 +125,8 @@ func QueryDevice(vendorID string, deviceID string) ([]PCIID, error) {
 // SubDevice finds all matching devices based on a quartet of IDs.
 func QuerySubDevice(
 	vendorID string, deviceID string, subVendorID string, subDeviceID string) (
-	[]PCIID, error) {
+	[]PCIID, error,
+) {
 	results := make([]PCIID, 0)
 
 	vID := strings.ToLower(vendorID)
