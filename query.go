@@ -3,7 +3,7 @@ package pciids
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -50,7 +50,7 @@ func LatestWithContext(ctx context.Context) (string, error) {
 		return "", errors.New(fmt.Sprintln("invalid response status code: ", resp.Status))
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", errors.Wrap(err, "could not read downloaded file")
 	}
