@@ -76,7 +76,7 @@ func main() {
 				Destination: &debugOutput,
 			},
 			&cli.BoolFlag{
-				Name:        "lang",
+				Name:        "json",
 				Usage:       "enable output in JSON",
 				Destination: &jsonOutput,
 			},
