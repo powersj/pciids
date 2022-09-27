@@ -3,7 +3,7 @@ all: build
 
 .PHONY: build
 build:
-	go build -o pciids ./cmd/pciids
+	go build -ldflags "-s -w" -o pciids ./cmd/pciids
 
 .PHONY: clean
 clean:
