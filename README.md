@@ -15,6 +15,26 @@ To search for devices using the CLI, pass in either:
 Here are some examples:
 
 ```text
+$ pciids 1ed5
+1ed5:0100 - Moore Threads Technology Co.,Ltd MTT S10
+1ed5:0101 - Moore Threads Technology Co.,Ltd MTT S10
+1ed5:0102 - Moore Threads Technology Co.,Ltd MTT S30
+1ed5:0105 - Moore Threads Technology Co.,Ltd MTT S50
+1ed5:0106 - Moore Threads Technology Co.,Ltd MTT S60
+1ed5:0111 - Moore Threads Technology Co.,Ltd MTT S100
+1ed5:0121 - Moore Threads Technology Co.,Ltd MTT S1000M
+1ed5:0122 - Moore Threads Technology Co.,Ltd MTT S1000
+1ed5:0123 - Moore Threads Technology Co.,Ltd MTT S2000
+1ed5:01ff - Moore Threads Technology Co.,Ltd MTT HDMI/DP Audio
+1ed5:0201 - Moore Threads Technology Co.,Ltd G2D30
+1ed5:0202 - Moore Threads Technology Co.,Ltd G2D20
+1ed5:0203 - Moore Threads Technology Co.,Ltd G2D10
+1ed5:0211 - Moore Threads Technology Co.,Ltd G2D40
+1ed5:0221 - Moore Threads Technology Co.,Ltd G2S80
+1ed5:0222 - Moore Threads Technology Co.,Ltd G2S85
+1ed5:0223 - Moore Threads Technology Co.,Ltd G2S4
+1ed5:0251 - Moore Threads Technology Co.,Ltd G2N10
+1ed5:02ff - Moore Threads Technology Co.,Ltd MTT HDMI/DP Audio
 $ pciids 1d0f efa1
 1d0f:efa1 - Amazon.com, Inc. Elastic Fabric Adapter (EFA)
 $ pciids 10de 2206 10de 1467
@@ -104,6 +124,7 @@ Users can take advantage of various functions in their own code:
 * `All()`: returns a list of all PCI ID devices
 * `LatestFile()`: string of the latest PCI ID database
 * `Parse(string)`: parses a given PCI ID database string
+* `QueryVendor(vendorID)`: Searches for devices matching a vendor ID
 * `QueryDevice(vendorID, deviceID)`: Searches for devices matching a PCI ID
    pair
 * `QuerySubDevice(vendorID, deviceID, subVendorID, subDeviceID)`: Like
