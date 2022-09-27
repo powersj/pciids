@@ -1,4 +1,4 @@
-package main
+package pciids
 
 import (
 	"context"
@@ -11,17 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const (
-	version         = "v2.2.0"
-	numVendorIDs    = 1
-	numDeviceIDs    = 2
-	numSubDeviceIDs = 4
-	remoteURL       = "https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids"
-)
-
-func main() {
-	Execute()
-}
+const remoteURL = "https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids"
 
 // All returns all PCI IDs in a slice.
 func All() ([]PCIID, error) {

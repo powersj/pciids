@@ -6,8 +6,16 @@ import (
 	"os"
 
 	"github.com/pkg/errors"
+	"github.com/powersj/pciids/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+)
+
+const (
+	version         = "v2.2.0"
+	numVendorIDs    = 1
+	numDeviceIDs    = 2
+	numSubDeviceIDs = 4
 )
 
 var (
@@ -64,16 +72,16 @@ func args(cmd *cobra.Command, args []string) error {
 
 // Base command operations.
 func root(cmd *cobra.Command, args []string) error {
-	var ids []PCIID
+	var ids []pciids.PCIID
 	var err error
 
 	switch len(args) {
 	case numSubDeviceIDs:
-		ids, err = QuerySubDevice(args[0], args[1], args[2], args[3])
+		ids, err = pciids.QuerySubDevice(args[0], args[1], args[2], args[3])
 	case numDeviceIDs:
-		ids, err = QueryDevice(args[0], args[1])
+		ids, err = pciids.QueryDevice(args[0], args[1])
 	case numVendorIDs:
-		ids, err = QueryVendor(args[0])
+		ids, err = pciids.QueryVendor(args[0])
 	}
 
 	if err != nil {
@@ -111,7 +119,7 @@ func init() {
 // Execute adds all child commands to the root command and sets flags.
 //
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func main() {
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
