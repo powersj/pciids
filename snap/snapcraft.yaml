@@ -1,0 +1,29 @@
+name: pciids
+adopt-info: pciids
+summary: Lookup vendor and device names using PCI IDs!
+description: |
+  Lookup vendor and device names using PCI IDs!
+  
+base: core20
+grade: stable
+confinement: strict
+compression: lzo
+
+license: GPL-3.0
+
+apps:
+  pciids:
+    command: bin/pciids
+    plugs:
+      - home
+      - network
+      
+parts:
+  pciids:
+    source: https://github.com/powersj/pciids 
+    source-type: git
+    plugin: go
+      
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
