@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	version         = "v2.3.0"
+	version         = "v2.4.0"
 	numVendorIDs    = 1
 	numDeviceIDs    = 2
 	numSubDeviceIDs = 4
