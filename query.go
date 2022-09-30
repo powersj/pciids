@@ -5,24 +5,54 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
 
-const remoteURL = "https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids"
+const (
+	remoteURL       = "https://raw.githubusercontent.com/pciutils/pciids/master/pci.ids"
+	localPathEnvVar = "PCIIDS_LOCAL_PATH"
+)
 
 // All returns all PCI IDs in a slice.
 func All() ([]PCIID, error) {
-	rawIDs, err := Latest()
-	if err != nil {
-		return nil, errors.Wrap(err, "cannot read latest IDs")
+	var rawIDs string
+	var err error
+
+	path, exist := os.LookupEnv(localPathEnvVar)
+	if exist {
+		rawIDs, err = Local(path)
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot read local IDs")
+		}
+	} else {
+		rawIDs, err = Latest()
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot read latest IDs")
+		}
 	}
 
 	parsedIDs := parse(rawIDs)
 
 	return parsedIDs, nil
+}
+
+func Local(path string) (string, error) {
+	log.Debug("reading: ", path)
+
+	if _, err := os.Stat(path); err != nil {
+		return "", errors.Wrap(err, "could not stat local file")
+	}
+
+	bytes, err := os.ReadFile(path)
+	if err != nil {
+		return "", errors.Wrap(err, "could not read local file")
+	}
+
+	return string(bytes), nil
 }
 
 // Latest downloads the latest PCI ID file from the GitHub mirror.
