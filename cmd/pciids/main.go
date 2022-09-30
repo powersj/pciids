@@ -16,19 +16,19 @@ const (
 	numVendorIDs    = 1
 	numDeviceIDs    = 2
 	numSubDeviceIDs = 4
-	usage           = `Lookup vendor and device names using PCI IDs.
+	usage           = "Lookup vendor and device names using PCI IDs"
+	usageText       = "pciids [global options] vendorID [deviceID [subdeviceID subvendorID]]"
+	description     = `To search for devices using the CLI, pass in either:
 
-	To search for devices using the CLI, pass in either:
-	  a) vendor
-	  b) a pair of vendor and device PCI IDs
-	  c) two pairs, vendor and device PCI IDs as well as sub-vendor and
-		 sub-device PCI IDs:
+* vendor ID
+* a pair of vendor and device PCI IDs
+* two pairs, vendor and device PCI IDs as well as sub-vendor and sub-device PCI IDs
 
-	Examples:
-	$ pciids 1ed5
-	$ pciids 1d0f efa1
-	$ pciids 10de 2206 10de 1467
-	`
+Examples:
+$ pciids 1ed5
+$ pciids 1d0f efa1
+$ pciids 10de 2206 10de 1467
+`
 )
 
 var (
@@ -66,9 +66,11 @@ func verifyArgs(args []string) error {
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func main() {
 	app := &cli.App{
-		Name:    "pciids",
-		Version: version,
-		Usage:   usage,
+		Name:        "pciids",
+		Version:     version,
+		Usage:       usage,
+		UsageText:   usageText,
+		Description: description,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:        "debug",
@@ -82,13 +84,13 @@ func main() {
 			},
 		},
 		Action: func(cCtx *cli.Context) error {
+			setupLogging()
+
 			args := cCtx.Args().Slice()
 			err := verifyArgs(args)
 			if err != nil {
 				return err
 			}
-
-			setupLogging()
 
 			var ids []pciids.PCIID
 			switch len(args) {
@@ -100,13 +102,13 @@ func main() {
 				ids, err = pciids.QueryVendor(args[0])
 			}
 			if err != nil {
-				return errors.Wrap(err, "Error while querying for device")
+				return errors.Wrap(err, "error while querying for device")
 			}
 
 			if jsonOutput {
 				b, err := json.MarshalIndent(&ids, "", "  ")
 				if err != nil {
-					return errors.Wrap(err, "Unable to convert to JSON")
+					return errors.Wrap(err, "unable to convert to JSON")
 				}
 
 				fmt.Println(string(b))
